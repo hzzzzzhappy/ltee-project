@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "LTEE variant calling"
+abstract: "Variant calling on three E. coli samples from the Long-Term Evolution Experiment"
+type: software
+authors:
+  - given-names: "Hanzhe"
+    family-names: "Liang"
+    email: "hanzhe.liang@mbzuai.ac.ae"
+repository-code: "https://github.com/hzzzzzhappy/ltee-project"
+license: MIT
+version: 0.1.0
