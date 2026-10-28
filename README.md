@@ -9,7 +9,9 @@ Author: Hanzhe Liang ([GitHub](https://github.com/hzzzzzhappy),
 
 This project follows the CBIO7501 Reproducible and Open Science lessons.
 The project layout, verified raw-data download, sample metadata and data
-availability statement are complete. Raw files remain local and read-only;
+availability statement are complete. The Lesson 04 terminal exercises include
+a resolved merge conflict, a merged pull request, an annotated `lesson-04` tag
+and recovery of deleted files. Raw files remain local and read-only;
 the download script and metadata are tracked with Git.
 The `reproduce` task currently prints a placeholder; it does not run an analysis.
 
@@ -83,7 +85,9 @@ environment.
 See [project organization notes](docs/lesson-02-notes.md) for folder choices,
 file-naming examples and the verified absolute/relative-path exercise.
 See [data management notes](docs/data-management-notes.md) for FAIR, CARE and
-data-sharing exercise responses.
+data-sharing exercise responses, and the
+[Lesson 04 terminal walkthrough](docs/lesson-04-terminal.md) for commands,
+commit IDs and verification outcomes.
 
 ## Release status
 
