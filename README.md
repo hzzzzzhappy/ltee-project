@@ -103,3 +103,17 @@ Project layout generated from the CBIO7501 project template
 (<https://github.com/khan-lab/cbio7501-f26/tree/main/templates/cookiecutter-repro-project>).
 
 Practice project from the Reproducible and Open Science lessons.
+
+## Get the data
+
+From the project root:
+
+```bash
+pixi exec python scripts/download_data.py
+```
+
+To verify existing data without downloading:
+
+```bash
+pixi exec python scripts/download_data.py --verify-only
+```
