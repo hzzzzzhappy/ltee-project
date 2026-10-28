@@ -65,14 +65,15 @@ Run future commands from the project root. A path relative to the working
 directory remains valid after moving the whole project, provided the internal
 layout stays the same.
 
-## Scope of this scaffold
+## Lesson 02 checkpoint
 
 - Generated with the official Cookiecutter template, keeping the default MIT
   license and workflow/container stubs.
 - Template source commit: `d62674d4daf195feec6d6043bfeefd661d2f32a4`.
 - Main README includes the raw-read DOI, CC0 license and reference accession.
 - Author: Hanzhe Liang (`hanzhe.liang@mbzuai.ac.ae`); GitHub: `hzzzzzhappy`.
-- Data downloading and sample-sheet creation belong to Lesson 03.
+- At the Lesson 02 checkpoint, data downloading and sample-sheet creation
+  were pending Lesson 03; they have since been completed.
 - The lock file has been generated in preparation for the first Git commit,
   following Lesson 04.
 - Installing the project environment and implementing reproduction belong to

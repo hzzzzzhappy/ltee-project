@@ -7,9 +7,10 @@ Author: Hanzhe Liang ([GitHub](https://github.com/hzzzzzhappy),
 
 ## Current status
 
-This is the project scaffold for CBIO7501 Lesson 02 (project organization).
-The directory layout and data-source description are ready. Raw data, sample
-metadata, analysis scripts and results are added in subsequent lessons.
+This project follows the CBIO7501 Reproducible and Open Science lessons.
+The project layout, verified raw-data download, sample metadata and data
+availability statement are complete. Raw files remain local and read-only;
+the download script and metadata are tracked with Git.
 The `reproduce` task currently prints a placeholder; it does not run an analysis.
 
 ## Setup and reproduction in later lessons
@@ -56,14 +57,33 @@ from the Long-Term Evolution Experiment (population Ara-3, generations 5,000,
 15,000 and 50,000), prepared by Data Carpentry:
 <https://doi.org/10.6084/m9.figshare.7726454> (file `sub.tar.gz`, CC0).
 Reference genome: *E. coli* B str. REL606, GenBank CP000819.1 (NCBI).
-Details, sample sheet and checksums belong in `metadata/` and will be added in
-Lesson 03 together with the data-download script. The data has not been
-downloaded yet.
+Data sources, the three-sample sheet, a data dictionary and SHA-256 checksums
+are in `metadata/`. The six FASTQ files and compressed reference genome have
+been downloaded, checksum-verified and made read-only. They are excluded from Git.
 
-## Lesson 02 notes
+## Data availability
+
+The original sequencing runs SRR2589044, SRR2584863 and SRR2584866 are available
+under NCBI BioProject [PRJNA295606](https://www.ebi.ac.uk/ena/browser/view/PRJNA295606).
+The trimmed, subsampled reads used here are available from Data Carpentry on
+figshare, <https://doi.org/10.6084/m9.figshare.7726454> (`sub.tar.gz`, CC0).
+The reference is *E. coli* B REL606, accession CP000819.1, assembly
+GCA_000017985.1, downloaded from NCBI. Exact URLs and provider MD5 checksums are
+recorded in `metadata/sources.tsv`; checksums of the retained raw files are in
+`metadata/checksums.sha256`.
+
+The MIT-licensed code is available in this repository. Run
+`pixi exec python scripts/download_data.py` to retrieve and verify the raw data.
+Derived analysis results have not yet been produced; subsequent lessons add
+the workflow that will regenerate them from these raw files and the locked
+environment.
+
+## Course notes
 
 See [project organization notes](docs/lesson-02-notes.md) for folder choices,
 file-naming examples and the verified absolute/relative-path exercise.
+See [data management notes](docs/data-management-notes.md) for FAIR, CARE and
+data-sharing exercise responses.
 
 ## Release status
 
@@ -75,7 +95,8 @@ See `CITATION.cff`. GitHub shows a "Cite this repository" button for it.
 
 ## License
 
-MIT, see `LICENSE`.
+MIT, see `LICENSE`. The template and download script originate from the
+CBIO7501 course; see [third-party notices](docs/third-party-notices.md).
 
 ---
 Project layout generated from the CBIO7501 project template
