@@ -101,3 +101,5 @@ CBIO7501 course; see [third-party notices](docs/third-party-notices.md).
 ---
 Project layout generated from the CBIO7501 project template
 (<https://github.com/khan-lab/cbio7501-f26/tree/main/templates/cookiecutter-repro-project>).
+
+Practice project from the Reproducible and Open Science lessons.
