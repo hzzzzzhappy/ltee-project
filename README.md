@@ -121,3 +121,9 @@ To verify existing data without downloading:
 ```bash
 pixi exec python scripts/download_data.py --verify-only
 ```
+
+On a fresh clone, `data/raw/` contains only its README because raw data is
+excluded from version control. Run the download command before verification;
+`--verify-only` checks existing files and does not fetch missing data.
+If verification reports a missing or changed file, rerun the download command
+to retrieve a verified copy, then check it again.
