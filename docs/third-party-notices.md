@@ -34,3 +34,12 @@ and [Lesson 04](https://khanlab.bio/cbio7501-f26/pages/04-git.html),
 by Aziz Khan and the course contributors. Course text is licensed
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 Data licenses and sources are described in the main and metadata READMEs.
+
+`scripts/run_variant_calling.sh` is adapted from Data Carpentry's
+[Automating a Variant Calling Workflow](https://datacarpentry.github.io/wrangling-genomics/05-automation.html),
+via [CBIO7501 Lesson 05](https://khanlab.bio/cbio7501-f26/pages/05-pixi.html),
+under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+The adaptation uses project-relative paths, decompresses the reference into
+`data/processed/`, adds alignment and variant statistics, and exposes the
+minimum read depth and output folder as parameters. The attribution and
+change description are retained in the script header.

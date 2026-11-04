@@ -13,25 +13,31 @@ availability statement are complete. The Lesson 04 terminal exercises include
 a resolved merge conflict, a merged pull request, an annotated `lesson-04` tag
 and recovery of deleted files. Raw files remain local and read-only;
 the download script and metadata are tracked with Git.
-The `reproduce` task currently prints a placeholder; it does not run an analysis.
+Lesson 05 Part B adds a Linux/macOS `pipeline` environment and tasks for data
+verification, quality control and variant calling. `pixi run reproduce` has
+completed successfully on the local macOS machine.
 
-## Setup and reproduction in later lessons
+## Setup and reproduction
 
 You need [Pixi](https://pixi.prefix.dev/latest/) and an internet connection.
-The repository includes `pixi.lock`, generated before the first Git commit as
-introduced in Lesson 04. Run commands from the project root:
+The analysis pipeline runs on Linux and macOS. Run these commands from the
+project root:
 
 ```bash
-pixi lock            # Refresh the lock file after changing dependencies
-pixi install         # Lesson 05: install the project environment
-pixi run reproduce   # Lesson 05 onward: after adding the real analysis tasks
+pixi install --locked --all
+pixi run reproduce
 ```
+
+The `reproduce` task verifies the raw data, runs FastQC and MultiQC, then
+aligns reads and calls variants. The MultiQC report is
+`results/qc/multiqc/multiqc_report.html`; final variants are in `results/vcf/`.
+Exact package versions are recorded in `pixi.lock`.
 
 Repository: <https://github.com/hzzzzzhappy/ltee-project>.
 
-The included GitHub Action installs the locked environment and runs the
-`reproduce` task on each push. At this stage, a passing check verifies the
-environment and placeholder task; it does not validate a variant-calling analysis.
+The included GitHub Action installs the locked environment and runs
+`reproduce` on each push. The Lesson 05 pipeline has been tested locally;
+its GitHub check has not yet run.
 
 ## What is where
 
@@ -74,11 +80,11 @@ GCA_000017985.1, downloaded from NCBI. Exact URLs and provider MD5 checksums are
 recorded in `metadata/sources.tsv`; checksums of the retained raw files are in
 `metadata/checksums.sha256`.
 
-The MIT-licensed code is available in this repository. Run
-`pixi exec python scripts/download_data.py` to retrieve and verify the raw data.
-Derived analysis results have not yet been produced; subsequent lessons add
-the workflow that will regenerate them from these raw files and the locked
-environment.
+The analysis code is available in this repository; see
+[third-party notices](docs/third-party-notices.md) for source attributions and
+licenses. Run `pixi run download` to retrieve and verify the raw data.
+Derived results are generated locally by `pixi run reproduce` and excluded
+from Git.
 
 ## Course notes
 
@@ -99,8 +105,9 @@ See `CITATION.cff`. GitHub shows a "Cite this repository" button for it.
 
 ## License
 
-MIT, see `LICENSE`. The template and download script originate from the
-CBIO7501 course; see [third-party notices](docs/third-party-notices.md).
+MIT, see `LICENSE`, except for material covered by the licenses listed in
+[third-party notices](docs/third-party-notices.md). The variant-calling script
+adapts the Data Carpentry workflow under CC BY 4.0.
 
 ---
 Project layout generated from the CBIO7501 project template
@@ -113,11 +120,11 @@ Practice project from the Reproducible and Open Science lessons.
 From the project root:
 
 ```bash
-pixi exec python scripts/download_data.py
+pixi run download
 ```
 
 To verify existing data without downloading:
 
 ```bash
-pixi exec python scripts/download_data.py --verify-only
+pixi run python scripts/download_data.py --verify-only
 ```
