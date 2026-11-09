@@ -39,3 +39,16 @@ variant-calling = { cmd = "bash scripts/run_variant_calling.sh", depends-on = ["
 
 [environments]
 pipeline = ["pipeline"]
+
+# The macOS package hook splits Quarto paths when the environment path contains a space.
+[target.osx.activation.env]
+QUARTO_SHARE_PATH = "$CONDA_PREFIX/share/quarto"
+QUARTO_CONDA_PREFIX = "$CONDA_PREFIX"
+QUARTO_DENO = "$CONDA_PREFIX/bin/deno"
+QUARTO_DENO_DOM = "$CONDA_PREFIX/lib/deno_dom.dylib"
+QUARTO_PANDOC = "$CONDA_PREFIX/bin/pandoc"
+QUARTO_ESBUILD = "$CONDA_PREFIX/bin/esbuild"
+QUARTO_TYPST = "$CONDA_PREFIX/bin/typst"
+QUARTO_DART_SASS = "$CONDA_PREFIX/bin/sass"
+DENO_DOM_PLUGIN = "$CONDA_PREFIX/lib/deno_dom.dylib"
+DENO_INSTALL_ROOT = "$CONDA_PREFIX"
