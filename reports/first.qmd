@@ -1,0 +1,17 @@
+---
+title: "My first Quarto document"
+author: "Hanzhe Liang"
+format: html
+---
+
+This is **Markdown**: *italics*, `code`, [links](https://quarto.org) and lists:
+
+- one
+- two
+
+## A code cell
+
+```{python}
+import datetime
+print("This report was rendered on", datetime.date.today())
+```
