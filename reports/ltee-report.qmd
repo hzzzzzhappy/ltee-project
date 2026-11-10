@@ -1,0 +1,147 @@
+---
+title: "Mutations in the Long-Term Evolution Experiment"
+subtitle: "Sequencing reads from three *E. coli* clones in population Ara-3"
+author: "Hanzhe Liang"
+date: today
+format:
+  html:
+    embed-resources: true
+    toc: true
+    code-fold: true
+    code-tools: true
+  typst:
+    echo: false
+execute:
+  warning: false
+bibliography: references.bib
+jupyter: python3
+---
+
+## Question
+
+The Long-Term Evolution Experiment provides genome sequences from *Escherichia coli* sampled over 50,000 generations [@tenaillon2016]. How many mutations distinguish these clones, and how sensitive are the counts to a minimum-depth filter? As a first step, this report examines the paired sequence reads used to call those variants.
+
+## Data
+
+```{python}
+#| tags: [parameters]
+max_reads = 10000
+```
+
+```{python}
+#| label: setup
+from pathlib import Path
+import sys
+
+import matplotlib
+import matplotlib.pyplot as plt
+import pandas as pd
+from IPython.display import Markdown, display
+from scripts.fastq_stats import quality_by_position, summarize
+
+samples = pd.read_csv("metadata/samples.tsv", sep="\t", keep_default_na=False)
+samples = samples.sort_values("generation")
+fastq_files = samples["fastq_1"].tolist() + samples["fastq_2"].tolist()
+generations = ", ".join(f"{g:,}" for g in samples["generation"])
+
+
+def show_table(frame):
+    # Emit a Markdown table so Quarto can render it in both HTML and PDF.
+    rows = [frame.columns, ["---"] * len(frame.columns), *frame.itertuples(index=False, name=None)]
+    display(Markdown("\n".join("| " + " | ".join(map(str, row)) + " |" for row in rows)))
+```
+
+The Data Carpentry teaching subset [@dc_data] contains paired reads from `{python} len(samples)` Ara-3 clones sampled at generations `{python} generations` (@tbl-samples). In the sample sheet, `None` is a recorded mutator status and `unknown` denotes an undetermined citrate-use phenotype.
+
+```{python}
+#| label: tbl-samples
+#| tbl-cap: "LTEE clones in generation order. Sample identifiers are SRA runs."
+show_table(samples[["sample", "strain", "generation", "mutator", "cit"]])
+```
+
+## Reads
+
+@tbl-reads counts every record in each FASTQ file. The parameter limits the length, GC and base-quality summaries to the first `{python} f'{max_reads:,}'` reads per file. GC is the percentage of sampled bases that are G or C. Mean Q is the arithmetic mean of their Phred+33 scores. Each file identifier below omits the shared suffix `.trim.sub.fastq`.
+
+```{python}
+#| label: tbl-reads
+#| tbl-cap: "Full read counts and prefix summaries by run and mate (1 or 2)."
+reads = pd.DataFrame([summarize(path, max_reads) for path in sorted(fastq_files)])
+read_table = pd.DataFrame({
+    "File": reads["file"].str.removesuffix(".trim.sub.fastq"),
+    "Reads": reads["reads"].map("{:,}".format),
+    "Mean length (bp)": reads["mean_length"].map("{:.1f}".format),
+    "GC (%)": reads["gc_percent"].map("{:.1f}".format),
+    "Mean Q": reads["mean_quality"].map("{:.1f}".format),
+})
+show_table(read_table)
+```
+
+```{python}
+#| label: paired-counts
+#| include: false
+counts = reads.set_index("file")["reads"]
+pairs = {}
+for row in samples.itertuples(index=False):
+    r1, r2 = (counts[Path(path).name] for path in (row.fastq_1, row.fastq_2))
+    if r1 != r2:
+        raise ValueError(f"Mates have different record counts for {row.sample}")
+    pairs[row.sample] = r1
+if len(set(pairs.values())) == 1:
+    pair_text = f"{next(iter(pairs.values())):,} read pairs per clone"
+else:
+    pair_text = ", ".join(f"{count:,} read pairs for {run}" for run, count in pairs.items())
+n_sampled = reads["reads"].clip(upper=max_reads)
+mean_length = (reads["mean_length"] * n_sampled).sum() / n_sampled.sum()
+```
+
+The paired files contain `{python} pair_text`. Across the sampled reads, the mean length after trimming is `{python} f'{mean_length:.1f}'` bases.
+
+## Quality along the read
+
+```{python}
+#| label: fig-quality
+#| fig-cap: "Mean base quality by position in the sampled prefix of each FASTQ file. Colour identifies the clone and line style identifies the mate."
+#| fig-alt: "Six quality profiles, one solid line for read 1 and one dashed line for read 2 of each clone. The horizontal axis is position from the start of a read; the vertical axis is mean Phred score among reads that reach that position. The text below gives the observed ranges at the two ends of the shared interval."
+profiles = {}
+fig, ax = plt.subplots(figsize=(7.2, 4.3))
+for row, color in zip(samples.itertuples(index=False), ["#0072B2", "#D55E00", "#009E73"]):
+    for mate, path, style in [(1, row.fastq_1, "-"), (2, row.fastq_2, "--")]:
+        q = quality_by_position(path, max_reads)
+        profiles[(row.sample, mate)] = q
+        ax.plot(q.index, q, color=color, linestyle=style, linewidth=1.4,
+                label=f"{row.sample} R{mate}")
+ax.set(xlabel="Position in read (bases)", ylabel="Mean Phred score")
+ax.grid(axis="y", alpha=0.25)
+ax.legend(ncol=3, fontsize=8, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.16))
+fig.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: quality-ranges
+#| include: false
+last_shared = min(q.index[-1] for q in profiles.values())
+
+def score_range(pos):
+    values = [q.loc[pos] for q in profiles.values()]
+    return f"{min(values):.1f}–{max(values):.1f}"
+```
+
+Across the six profiles in @fig-quality, the mean scores span `{python} score_range(1)` at base 1 and `{python} score_range(last_shared)` at base `{python} last_shared`, the last position shared by all profiles. Each point averages only reads long enough to contribute a base at that position.
+
+## Software
+
+```{python}
+#| label: versions
+print(f"Python {sys.version.split()[0]}; pandas {pd.__version__}; matplotlib {matplotlib.__version__}")
+```
+
+`pixi.lock` records the package builds for this analysis. The report and FASTQ helper adapt [CBIO7501 Lesson 07](https://khanlab.bio/cbio7501-f26/pages/07-quarto.html) by Aziz Khan and the workshop contributors ([course text under CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and course code under MIT). Here the summaries check paired counts, use position-specific denominators and report the observed quality ranges.
+
+::: {.content-visible when-format="html"}
+## References
+:::
+
+::: {#refs}
+:::
