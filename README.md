@@ -52,6 +52,12 @@ warnings or failures. These are kept in the report.
 The [Reproduce workflow](https://github.com/hzzzzzhappy/ltee-project/actions/workflows/reproduce.yml)
 runs the same command on a fresh Linux runner after each push.
 
+## 11 November — Docker
+
+Ran `hello-world`, used an Ubuntu container and mounted the project folder.
+The container read the same sample table as the Mac. Saved the Ubuntu image
+digest in the [Docker notes](docs/lesson-08-docker.md). This covers sections 1–4.
+
 ## Data and files
 
 The reads are the Data Carpentry subset on
