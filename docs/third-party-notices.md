@@ -51,3 +51,6 @@ CC BY 4.0 and course code is MIT, with the notice retained above.
 
 `workflow/Snakefile` adapts Lesson 09 sections 4–5, retaining the course and
 Data Carpentry attribution in its header. File arguments use shell quoting.
+
+The Lesson 09 adaptation also includes sections 6–7: variant calling,
+filtering, statistics, FastQC and MultiQC, with shell-quoted file arguments.

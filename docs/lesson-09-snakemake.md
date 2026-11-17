@@ -65,3 +65,34 @@ All six jobs ran successfully on 17 November. The sorted BAM passed
 records. Snakemake removed the temporary SAM and unsorted BAM; a second dry
 run reported `Nothing to be done`. The job graph is in `results/dag.svg`.
 All seven raw-file checksums and the archived VCF checksums still match.
+
+## 17 November — sections 6–7
+
+Added `flagstat`, `mpileup`, `call`, `filter` and `variant_stats` rules.
+The filter reads `min_depth` from the config. With depth 2, the three samples
+produced 25, 775 and 10 variants for SRR2584863, SRR2584866 and SRR2589044.
+The VCFs were readable, the statistics were present and the temporary raw
+BCFs were removed. Repeating the requested targets needed no work.
+
+To request variant and alignment statistics for one sample:
+
+```bash
+pixi run -e pipeline snakemake -c 4 results/stats/SRR2584863.flagstat.txt results/stats/SRR2584863.bcftools-stats.txt
+```
+
+Added one FastQC job per sample and mate, then used `expand()` to pass all
+six ZIP files to MultiQC. To build the QC report:
+
+```bash
+pixi run -e pipeline snakemake -c 4 results/qc/multiqc/multiqc_report.html
+```
+
+All seven QC jobs completed. Each FASTQ contained 175,000 sequences and
+MultiQC included the six correct input files. Base-quality and adapter
+checks passed in all six. Sequence content had warnings or failures; GC
+content and length distribution had warnings. These remain in the reports.
+The second dry run needed no work. All seven raw-file checksums still match.
+
+The rules now cover sections 1–7. Use explicit output targets for now;
+the full target rule and the switch of `reproduce` to Snakemake are later
+lesson steps.

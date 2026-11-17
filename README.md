@@ -72,6 +72,14 @@ The new sorted BAM and index passed validation, with 350,000 primary records.
 A second dry run needed no work. The DAG is in `results/dag.svg`; commands
 and checks are in the [Snakemake notes](docs/lesson-09-snakemake.md).
 
+## 17 November — Snakemake sections 6–7
+
+Added variant calling, filtering, statistics and QC rules. The three samples
+produced 25, 775 and 10 variants. FastQC ran on all six files and MultiQC
+summarised them. Both sets of targets needed no work on a second dry run.
+The QC report is `results/qc/multiqc/multiqc_report.html`; commands are in
+the [Snakemake notes](docs/lesson-09-snakemake.md).
+
 ## Data and files
 
 The reads are the Data Carpentry subset on
