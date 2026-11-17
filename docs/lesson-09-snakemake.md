@@ -123,3 +123,20 @@ pixi run -e pipeline snakemake -n
 These commands now use the complete default target. `pixi run reproduce`
 still uses the shell workflow; switching it to Snakemake is section 11.
 All seven raw-file SHA-256 checks still pass.
+
+## 17 November — section 10
+
+Added `scripts/compare_vcfs.py` and compared the variant records with the
+archived shell outputs. All records matched exactly for the three samples
+(25, 775 and 10 variants). Headers are excluded because they include run dates
+and commands. The script also checks for file names missing from either side.
+
+```bash
+pixi run python scripts/compare_vcfs.py results/shell-script/vcf results/vcf
+```
+
+Before changing the depth to 10, predicted three `filter` jobs, three
+`variant_stats` jobs and `all`. The dry run matched that prediction; alignment,
+calling, QC and the sensitivity outputs did not need to rerun. Restored the
+original config bytes (minimum depth 2), then checked that the default target
+was up to date. The depth-10 change was a dry run only.

@@ -87,6 +87,12 @@ target. `pixi run -e pipeline snakemake -c 4` now requests all 22 outputs.
 The complete rule graph is in `results/rulegraph.svg`; sensitivity counts
 are in the [Snakemake notes](docs/lesson-09-snakemake.md).
 
+## 17 November — Snakemake section 10
+
+Compared the variant records with the shell baseline: all three samples
+matched exactly. A temporary depth change to 10 planned only filtering and
+variant statistics again. Restored depth 2; the workflow was up to date.
+
 ## Data and files
 
 The reads are the Data Carpentry subset on

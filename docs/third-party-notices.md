@@ -57,3 +57,6 @@ filtering, statistics, FastQC and MultiQC, with shell-quoted file arguments.
 
 Sections 8–9 of the same Lesson 09 supply the depth-sensitivity and default
 target rules, retaining the course attribution above.
+
+`scripts/compare_vcfs.py` adapts Lesson 09 section 10 under the course's MIT
+license, adding symmetric file-name checks and rejecting empty input folders.
