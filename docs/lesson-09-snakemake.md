@@ -42,3 +42,26 @@ Moved the previous `sam`, `bam`, `bcf`, `vcf`, `stats` and `qc` folders into
 `results/shell-script/` to keep them as a comparison baseline. Kept the old processed
 reference there too. File sizes and the three final VCF checksums matched
 after the move. Raw data stayed in `data/raw/`.
+
+## 17 November — sections 4–5
+
+Rebuilt the Snakefile setup from the config file and sample sheet. Restricted
+the sample wildcard to the three run IDs and checked every mate path.
+
+The alignment target for section 5 is:
+
+```bash
+pixi run -e pipeline snakemake -c 4 results/bam/SRR2584863.aligned.sorted.bam.bai
+```
+
+The rules follow the course sequence: decompress the reference, index it,
+align one sample, convert SAM to BAM, sort and index. The old generated
+alignment files are kept outside the repository so this run can start
+without those outputs. The shell-script comparison baseline stays in
+`results/shell-script/`.
+
+All six jobs ran successfully on 17 November. The sorted BAM passed
+`samtools quickcheck`, the index was readable, and there were 350,000 primary
+records. Snakemake removed the temporary SAM and unsorted BAM; a second dry
+run reported `Nothing to be done`. The job graph is in `results/dag.svg`.
+All seven raw-file checksums and the archived VCF checksums still match.

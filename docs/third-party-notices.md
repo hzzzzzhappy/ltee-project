@@ -48,3 +48,6 @@ change description are retained in the script header.
 [Lesson 09](https://khanlab.bio/cbio7501-f26/pages/09-snakemake.html),
 sections 1–3, by Aziz Khan and the workshop contributors. Course text is
 CC BY 4.0 and course code is MIT, with the notice retained above.
+
+`workflow/Snakefile` adapts Lesson 09 sections 4–5, retaining the course and
+Data Carpentry attribution in its header. File arguments use shell quoting.

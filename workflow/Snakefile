@@ -1,0 +1,90 @@
+# LTEE alignment with Snakemake, CBIO7501 Lesson 09, sections 1–5.
+# Adapted from Aziz Khan and the CBIO7501 workshop contributors:
+# https://khanlab.bio/cbio7501-f26/pages/09-snakemake.html
+# Steps and tool options follow Data Carpentry "Wrangling Genomics",
+# variant calling episode (CC BY 4.0):
+# https://datacarpentry.github.io/wrangling-genomics/04-variant_calling.html
+# File arguments are shell-quoted; the target below stops after alignment.
+#
+# Run from the project folder:
+# pixi run -e pipeline snakemake -c 4 results/bam/SRR2584863.aligned.sorted.bam.bai
+
+import csv
+
+
+configfile: "config/config.yaml"
+
+
+with open(config["samples"]) as fh:
+    SAMPLES = {row["sample"]: row for row in csv.DictReader(fh, delimiter="\t")}
+GENOME = "data/processed/reference/ecoli_rel606.fasta"
+
+
+wildcard_constraints:
+    sample="|".join(SAMPLES),
+    read="1|2",
+    depth=r"\d+",
+
+
+rule prepare_reference:
+    input:
+        config["reference_gz"],
+    output:
+        GENOME,
+    shell:
+        "gunzip -c {input:q} > {output:q}"
+
+
+rule bwa_index:
+    input:
+        GENOME,
+    output:
+        multiext(GENOME, ".amb", ".ann", ".bwt", ".pac", ".sa"),
+    log:
+        "results/logs/bwa_index.log",
+    shell:
+        "bwa index {input:q} 2> {log:q}"
+
+
+rule bwa_mem:
+    input:
+        genome=GENOME,
+        index=rules.bwa_index.output,
+        r1=lambda wc: SAMPLES[wc.sample]["fastq_1"],
+        r2=lambda wc: SAMPLES[wc.sample]["fastq_2"],
+    output:
+        temp("results/sam/{sample}.aligned.sam"),
+    log:
+        "results/logs/bwa_mem/{sample}.log",
+    threads: 4
+    params:
+        extra=config["bwa_extra"] or "",
+    shell:
+        "bwa mem -t {threads} {params.extra} {input.genome:q} {input.r1:q} {input.r2:q} > {output:q} 2> {log:q}"
+
+
+rule sam_to_bam:
+    input:
+        "results/sam/{sample}.aligned.sam",
+    output:
+        temp("results/bam/{sample}.aligned.bam"),
+    shell:
+        "samtools view -S -b {input:q} > {output:q}"
+
+
+rule sort_bam:
+    input:
+        "results/bam/{sample}.aligned.bam",
+    output:
+        "results/bam/{sample}.aligned.sorted.bam",
+    shell:
+        "samtools sort -o {output:q} {input:q}"
+
+
+rule index_bam:
+    input:
+        "results/bam/{sample}.aligned.sorted.bam",
+    output:
+        "results/bam/{sample}.aligned.sorted.bam.bai",
+    shell:
+        "samtools index {input:q}"

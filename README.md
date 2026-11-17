@@ -65,6 +65,13 @@ created the config file. The old shell results are saved in
 `results/shell-script/`. Commands and checks are in the
 [Snakemake notes](docs/lesson-09-snakemake.md).
 
+## 17 November — Snakemake sections 4–5
+
+Repeated the workflow setup and ran the six alignment rules for `SRR2584863`.
+The new sorted BAM and index passed validation, with 350,000 primary records.
+A second dry run needed no work. The DAG is in `results/dag.svg`; commands
+and checks are in the [Snakemake notes](docs/lesson-09-snakemake.md).
+
 ## Data and files
 
 The reads are the Data Carpentry subset on
