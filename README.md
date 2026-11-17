@@ -80,6 +80,13 @@ summarised them. Both sets of targets needed no work on a second dry run.
 The QC report is `results/qc/multiqc/multiqc_report.html`; commands are in
 the [Snakemake notes](docs/lesson-09-snakemake.md).
 
+## 17 November — Snakemake sections 8–9
+
+Added depth sensitivity at 2, 5, 10 and 15 reads, plus the default `all`
+target. `pixi run -e pipeline snakemake -c 4` now requests all 22 outputs.
+The complete rule graph is in `results/rulegraph.svg`; sensitivity counts
+are in the [Snakemake notes](docs/lesson-09-snakemake.md).
+
 ## Data and files
 
 The reads are the Data Carpentry subset on

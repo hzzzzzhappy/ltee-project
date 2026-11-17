@@ -54,3 +54,6 @@ Data Carpentry attribution in its header. File arguments use shell quoting.
 
 The Lesson 09 adaptation also includes sections 6–7: variant calling,
 filtering, statistics, FastQC and MultiQC, with shell-quoted file arguments.
+
+Sections 8–9 of the same Lesson 09 supply the depth-sensitivity and default
+target rules, retaining the course attribution above.

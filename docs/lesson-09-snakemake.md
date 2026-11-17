@@ -96,3 +96,30 @@ The second dry run needed no work. All seven raw-file checksums still match.
 The rules now cover sections 1–7. Use explicit output targets for now;
 the full target rule and the switch of `reproduce` to Snakemake are later
 lesson steps.
+
+## 17 November — sections 8–9
+
+Added `depth_sensitivity` to filter each sample at the thresholds in
+`sensitivity_depths`. The 12 output VCFs were readable; each retained record
+met its depth threshold. Higher-depth outputs were subsets of lower-depth
+outputs, and depth 2 matched the existing final VCF records.
+
+| Sample | Depth 2 | Depth 5 | Depth 10 | Depth 15 |
+|---|---:|---:|---:|---:|
+| SRR2584863 | 25 | 22 | 16 | 4 |
+| SRR2584866 | 775 | 723 | 415 | 123 |
+| SRR2589044 | 10 | 8 | 5 | 1 |
+
+Added `rule all` with `default_target: True`. It requests the MultiQC report,
+three final VCFs, six statistics files and 12 sensitivity VCFs: 22 outputs.
+All exist, and running the workflow with no named target found everything
+up to date. The rule graph is in `results/rulegraph.svg`.
+
+```bash
+pixi run -e pipeline snakemake -c 4
+pixi run -e pipeline snakemake -n
+```
+
+These commands now use the complete default target. `pixi run reproduce`
+still uses the shell workflow; switching it to Snakemake is section 11.
+All seven raw-file SHA-256 checks still pass.
