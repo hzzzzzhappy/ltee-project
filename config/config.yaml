@@ -1,0 +1,10 @@
+# Settings for the LTEE workflow (CBIO7501 Lesson 09).
+samples: metadata/samples.tsv
+reference_gz: data/raw/reference/ecoli_rel606.fasta.gz
+# Fix BWA's batch size so alignment does not depend on the thread count.
+# This equals its default batch size for the original single-thread run.
+bwa_extra: "-K 10000000"
+
+# The following settings are used from section 6 onward.
+min_depth: 2
+sensitivity_depths: [2, 5, 10, 15]

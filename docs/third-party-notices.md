@@ -43,3 +43,8 @@ The adaptation uses project-relative paths, decompresses the reference into
 `data/processed/`, adds alignment and variant statistics, and exposes the
 minimum read depth and output folder as parameters. The attribution and
 change description are retained in the script header.
+
+`config/config.yaml` and the Snakemake exercise notes adapt
+[Lesson 09](https://khanlab.bio/cbio7501-f26/pages/09-snakemake.html),
+sections 1–3, by Aziz Khan and the workshop contributors. Course text is
+CC BY 4.0 and course code is MIT, with the notice retained above.

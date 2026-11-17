@@ -58,6 +58,13 @@ Ran `hello-world`, used an Ubuntu container and mounted the project folder.
 The container read the same sample table as the Mac. Saved the Ubuntu image
 digest in the [Docker notes](docs/lesson-08-docker.md). This covers sections 1–4.
 
+## 16 November — Snakemake
+
+Finished sections 1–3: installed the tools, ran the small text workflow and
+created the config file. The old shell results are saved in
+`results/shell-script/`. Commands and checks are in the
+[Snakemake notes](docs/lesson-09-snakemake.md).
+
 ## Data and files
 
 The reads are the Data Carpentry subset on
