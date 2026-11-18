@@ -60,3 +60,8 @@ target rules, retaining the course attribution above.
 
 `scripts/compare_vcfs.py` adapts Lesson 09 section 10 under the course's MIT
 license, adding symmetric file-name checks and rejecting empty input folders.
+
+The report's variant and depth-sensitivity sections and the task integration
+adapt Lesson 09 section 11, retaining the course's text/code licenses above.
+The section 12 thread experiment was run locally with trusted results saved
+beforehand and restored after the comparison.

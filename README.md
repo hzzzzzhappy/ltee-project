@@ -5,7 +5,7 @@ Hanzhe Liang · CBIO7501
 [GitHub](https://github.com/hzzzzzhappy) · hanzhe.liang@mbzuai.ac.ae
 
 Course practice using three *E. coli* samples from the Long-Term Evolution
-Experiment. The project now runs from data download to variant calling.
+Experiment. The project runs from data download through variant calling to a Quarto report.
 
 ## Run the analysis
 
@@ -17,12 +17,15 @@ pixi install --locked --all
 pixi run reproduce
 ```
 
-This checks the data, runs FastQC and MultiQC, then aligns the reads and calls
-variants. Package versions are saved in `pixi.lock`.
+This checks the data, runs the Snakemake workflow for QC, alignment, variants
+and depth sensitivity, then renders the Quarto report. Package versions are
+saved in `pixi.lock`.
 
 - QC report: `results/qc/multiqc/multiqc_report.html`
 - Final variants: `results/vcf/`
 - Alignment and variant statistics: `results/stats/`
+- Main report: `reports/ltee-report.html`
+- Depth sensitivity: `results/sensitivity/`
 
 To get the data or check the files separately:
 
@@ -92,6 +95,21 @@ are in the [Snakemake notes](docs/lesson-09-snakemake.md).
 Compared the variant records with the shell baseline: all three samples
 matched exactly. A temporary depth change to 10 planned only filtering and
 variant statistics again. Restored depth 2; the workflow was up to date.
+
+## 18 November — finish Snakemake
+
+`reproduce` now runs download → Snakemake → report. It rebuilt all 49 workflow
+jobs after the generated outputs were moved aside. The report includes the
+variant counts, depth-sensitivity figure and decision to keep depth 2 with
+the full sensitivity analysis. `pixi run compare-to-shell` checks all variant
+records against a fresh shell-script run.
+
+The format check passed. Lint kept the course's suggestions about logs for
+small rules and per-rule software environments; package versions are locked
+for the whole workflow with Pixi. Removing BWA's fixed batch size changed
+four records of SRR2584866 even though its count stayed at 775. Restoring
+`-K 10000000` restored every record exactly. Details are in the
+[Snakemake notes](docs/lesson-09-snakemake.md).
 
 ## Data and files
 

@@ -140,3 +140,48 @@ Before changing the depth to 10, predicted three `filter` jobs, three
 calling, QC and the sensitivity outputs did not need to rerun. Restored the
 original config bytes (minimum depth 2), then checked that the default target
 was up to date. The depth-10 change was a dry run only.
+
+## 18 November — sections 11–12
+
+Added Pixi tasks for Snakemake and comparison with the shell workflow.
+`reproduce` now follows download → Snakemake → report. The shell task writes
+to `results/shell-script/`. PyYAML is an explicit dependency of the report.
+
+```bash
+pixi run reproduce
+pixi run compare-to-shell
+```
+
+The comparison task reran both versions as needed and matched every VCF
+record (25, 775 and 10). Moved generated outputs aside, then ran `reproduce`
+with no generated reference, workflow state or result files in place. All
+49 jobs completed, followed by the report. Its variant table, sensitivity
+table, figure alt text and decision were checked against the output files.
+The earlier outputs remain in a local backup outside the repository.
+
+The report keeps minimum depth 2 for comparison with Data Carpentry and
+shows depths 2, 5, 10 and 15. Absolute counts depend on the cutoff. At each
+cutoff, the last clone has more calls than the 15,000-generation clone.
+This describes the teaching subset rather than a complete mutation rate.
+
+After a real four-minute interval, ran the section 12 checks. `snakefmt
+--check` passed. `snakemake --lint` returned 1 with two types of suggestions:
+small rules without their own log directive, and rules without separate
+Conda/container environments. The course uses one Pixi-locked environment
+for all rules; larger workflows may need separate environments. Tool logs
+are already recorded for alignment, pileup, FastQC and MultiQC.
+
+### Break it: threads and batch size
+
+Saved trusted VCFs, ran with four cores and an empty `bwa_extra`, and compared
+records. SRR2584863 and SRR2589044 were identical. SRR2584866 still had 775
+variants, but four trusted records were replaced by four different records.
+The count alone would have missed the difference. Restored the configured
+`-K 10000000` and rebuilt the downstream results; every VCF record matched
+the trusted set again. Re-rendered the report and verified the raw checksums.
+
+### Optional cluster exercise
+
+Section 13 requires a Slurm cluster, project account and partition. This Mac
+has no `sbatch` or `srun`, so no cluster execution was performed. The local
+workflow and required LTEE exercises through section 12 are complete.

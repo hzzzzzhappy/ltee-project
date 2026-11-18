@@ -1,6 +1,6 @@
 ---
 title: "Mutations in the Long-Term Evolution Experiment"
-subtitle: "Sequencing reads from three *E. coli* clones in population Ara-3"
+subtitle: "Variant calling on three *E. coli* clones in population Ara-3"
 author: "Hanzhe Liang"
 date: today
 format:
@@ -19,7 +19,7 @@ jupyter: python3
 
 ## Question
 
-The Long-Term Evolution Experiment provides genome sequences from *Escherichia coli* sampled over 50,000 generations [@tenaillon2016]. How many mutations distinguish these clones, and how sensitive are the counts to a minimum-depth filter? As a first step, this report examines the paired sequence reads used to call those variants.
+The Long-Term Evolution Experiment provides genome sequences from *Escherichia coli* sampled over 50,000 generations [@tenaillon2016]. How many mutations distinguish these clones, and how sensitive are the counts to a minimum-depth filter? This report examines the reads, compares the filtered variant counts and checks their sensitivity to the minimum-depth filter.
 
 ## Data
 
@@ -129,6 +129,123 @@ def score_range(pos):
 ```
 
 Across the six profiles in @fig-quality, the mean scores span `{python} score_range(1)` at base 1 and `{python} score_range(last_shared)` at base `{python} last_shared`, the last position shared by all profiles. Each point averages only reads long enough to contribute a base at that position.
+
+## Variants
+
+The workflow aligns paired reads to REL606, calls haploid variants with
+bcftools and filters them with `vcfutils.pl varFilter`. Settings come from
+`config/config.yaml`. The [MultiQC report](../results/qc/multiqc/multiqc_report.html)
+contains the read-quality checks. Counts below describe variants called from
+this teaching subset against the reference, rather than a complete catalogue
+of mutations in each clone.
+
+```{python}
+#| label: setup-variants
+import yaml
+
+with open("config/config.yaml") as stream:
+    config = yaml.safe_load(stream)
+
+
+def count_variants(path):
+    with open(path) as stream:
+        return sum(1 for line in stream if line.strip() and not line.startswith("#"))
+
+
+def percent_mapped(path):
+    with open(path) as stream:
+        for line in stream:
+            if " mapped (" in line and "primary" not in line:
+                return float(line.split("(", 1)[1].split("%", 1)[0])
+    raise ValueError(f"Mapped percentage missing from {path}")
+
+
+def stats_value(path, key):
+    with open(path) as stream:
+        for line in stream:
+            fields = line.rstrip().split("\t")
+            if len(fields) == 4 and fields[0] == "SN" and fields[2] == key:
+                return int(fields[3])
+    raise ValueError(f"{key} missing from {path}")
+
+
+variants = samples[["sample", "generation", "mutator"]].copy()
+variants["mapped_percent"] = [percent_mapped(f"results/stats/{s}.flagstat.txt") for s in variants["sample"]]
+variants["variants"] = [count_variants(f"results/vcf/{s}_final_variants.vcf") for s in variants["sample"]]
+variants["SNPs"] = [stats_value(f"results/stats/{s}.bcftools-stats.txt", "number of SNPs:") for s in variants["sample"]]
+variants["indels"] = [stats_value(f"results/stats/{s}.bcftools-stats.txt", "number of indels:") for s in variants["sample"]]
+```
+
+At least `{python} f'{variants["mapped_percent"].min():.2f}'`% of alignment
+records are mapped in each sample's flagstat summary. At minimum depth
+`{python} config["min_depth"]`, the filtered variant count is
+`{python} int(variants["variants"].iloc[0])` in the 5,000-generation clone and
+`{python} int(variants["variants"].iloc[-1])` in the 50,000-generation clone
+(@tbl-variants). The sample sheet records the latter as mutator `plus`.
+
+```{python}
+#| label: tbl-variants
+#| tbl-cap: "Mapping summaries and filtered variants at the configured minimum depth. SNP and indel counts come from bcftools stats."
+variant_table = variants.copy()
+variant_table["mapped_percent"] = variant_table["mapped_percent"].map("{:.2f}".format)
+show_table(variant_table)
+```
+
+### Sensitivity to the minimum-depth filter
+
+```{python}
+#| label: setup-sensitivity
+#| include: false
+depths = sorted(config["sensitivity_depths"])
+sens = pd.DataFrame([
+    {"sample": row.sample, "generation": row.generation, "depth": depth,
+     "variants": count_variants(f"results/sensitivity/{row.sample}_d{depth}.vcf")}
+    for row in variants.itertuples(index=False) for depth in depths
+])
+table = sens.pivot(index=["sample", "generation"], columns="depth", values="variants").sort_index(level="generation")
+ratios = table.iloc[-1] / table.iloc[-2]
+if not (ratios > 1).all():
+    raise ValueError("Revisit the decision: the final clone no longer has more calls at every threshold")
+```
+
+The workflow repeats the same filter at depths `{python} ', '.join(map(str, depths))`.
+@fig-sensitivity and @tbl-sensitivity show the resulting counts, computed from
+the VCF files at render time.
+
+```{python}
+#| label: fig-sensitivity
+#| fig-cap: "Filtered variants against generation at each minimum depth. The y axis is logarithmic; colour identifies the threshold."
+#| fig-alt: "Four lines compare variant counts across the three clones in generation order on a logarithmic y axis. Each line uses one minimum-depth threshold. The following table gives every value; the text states how the final two clones compare."
+fig, ax = plt.subplots(figsize=(7, 4.2))
+for depth, color in zip(depths, ["#86b6ef", "#5598e7", "#2a78d6", "#184f95"]):
+    part = sens[sens["depth"] == depth].sort_values("generation")
+    ax.plot(part["generation"], part["variants"], marker="o", color=color, label=f"min depth {depth}")
+if (sens["variants"] > 0).all():
+    ax.set_yscale("log")
+generations_axis = sorted(sens["generation"].unique())
+ax.set_xticks(generations_axis, [f"{g:,}" for g in generations_axis])
+ax.set(xlabel="Generation", ylabel="Filtered variants")
+ax.grid(alpha=0.25)
+ax.legend(frameon=False, fontsize=8)
+fig.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: tbl-sensitivity
+#| tbl-cap: "Filtered variant counts at each minimum read depth."
+show_table(table.reset_index())
+```
+
+**Decision.** Keep minimum depth `{python} config["min_depth"]` as the main
+result for comparison with the Data Carpentry workflow, and report all tested
+depths alongside it. Absolute counts change substantially with the threshold.
+Across the tested depths, the 50,000-generation clone has
+`{python} f'{ratios.min():.1f}'`–`{python} f'{ratios.max():.1f}'` times as many
+calls as the 15,000-generation clone. This ordering is robust in these three
+clones; the counts alone do not estimate a general mutation rate or establish
+why the clones differ. The decision is recorded in `docs/decisions.md`.
+
 
 ## Software
 

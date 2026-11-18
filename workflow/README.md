@@ -1,6 +1,6 @@
 # workflow
 
-`Snakefile` covers Lesson 09, sections 1–9: reference preparation, alignment,
+`Snakefile` covers Lesson 09, sections 1–12: reference preparation, alignment,
 variant calling, QC and depth sensitivity. From the project root:
 
 ```bash
@@ -14,7 +14,14 @@ depth. Use `-n` for a dry run. The rule graph is `results/rulegraph.svg`.
 
 Settings are in `config/config.yaml`; sample paths come from
 `metadata/samples.tsv`. You can also request individual output files.
-`pixi run reproduce` still runs the original shell pipeline and the Quarto
-report; switching it to Snakemake comes in section 11.
+`pixi run reproduce` now runs download → Snakemake → Quarto report.
+`pixi run compare-to-shell` reruns the original shell workflow in
+`results/shell-script/`, checks the Snakemake results, then compares the VCF
+records exactly. It excludes headers, which contain run-specific metadata.
+
+`bwa_extra: "-K 10000000"` fixes the BWA batch size across thread counts.
+Keep it when changing the number of cores. Formatting can be checked with
+`pixi run -e pipeline snakefmt --check workflow/Snakefile`; see the lesson
+notes for the reviewed lint suggestions.
 
 The Nextflow workflow is introduced in Lesson 10.
