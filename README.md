@@ -129,6 +129,10 @@ outputs are in `results/nf-core-demo/`. The
 [Nextflow notes](docs/lesson-10-nextflow.md) record the runs, cache checks,
 clean-up and the macOS launcher fix.
 
+The homework was also repeated over a real two-hour schedule; the
+[repeat record](docs/lesson-10-repeat-20261122.md) lists actual stage times
+and checks.
+
 ## Data and files
 
 The reads are the Data Carpentry subset on
