@@ -65,3 +65,15 @@ The report's variant and depth-sensitivity sections and the task integration
 adapt Lesson 09 section 11, retaining the course's text/code licenses above.
 The section 12 thread experiment was run locally with trusted results saved
 beforehand and restored after the comparison.
+
+`workflow/nextflow/main.nf`, `workflow/nextflow/nextflow.config` and the
+Nextflow exercise notes adapt [CBIO7501 Lesson 10](https://khanlab.bio/cbio7501-f26/pages/10-nextflow.html)
+by Aziz Khan and the workshop contributors (course code MIT, course text
+CC BY 4.0). The workflow retains its Data Carpentry CC BY 4.0 attribution.
+The compatibility helper generates a local copy of Bioconda's Nextflow
+launcher with path quoting corrected; that generated copy retains the
+upstream Seqera Apache-2.0 notice and is excluded from Git.
+
+The nf-core/demo 1.2.0 test used the project's MIT-licensed upstream pipeline
+and its pinned per-process containers; those downloaded files and test outputs
+are not committed. See https://github.com/nf-core/demo/tree/1.2.0.

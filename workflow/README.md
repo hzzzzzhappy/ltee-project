@@ -24,4 +24,8 @@ Keep it when changing the number of cores. Formatting can be checked with
 `pixi run -e pipeline snakefmt --check workflow/Snakefile`; see the lesson
 notes for the reviewed lint suggestions.
 
-The Nextflow workflow is introduced in Lesson 10.
+`nextflow/main.nf` implements the same pipeline for Lesson 10. Its config
+publishes copies under `results/nextflow/` and limits CPU requests to the
+available cores. Run it with `pixi run run-nextflow`; compare exact VCF
+records with `pixi run compare-workflows`. See
+[the Nextflow notes](../docs/lesson-10-nextflow.md) for resume examples.

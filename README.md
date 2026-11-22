@@ -111,6 +111,24 @@ four records of SRR2584866 even though its count stayed at 775. Restoring
 `-K 10000000` restored every record exactly. Details are in the
 [Snakemake notes](docs/lesson-09-snakemake.md).
 
+## 22 November — Nextflow homework
+
+Completed sections 1–9 and the launch-directory exercise. Nextflow produced
+the same VCF records as Snakemake (25, 775 and 10 variants). With depth 10,
+only six tasks reran and the other 26 were cached. The fixed-release
+`nf-core/demo` test also ran with Docker.
+
+```bash
+pixi run run-nextflow
+pixi run compare-workflows
+```
+
+`reproduce` continues to use Snakemake. Nextflow outputs are in
+`results/nextflow/`, including `execution-report.html`; the Docker demo
+outputs are in `results/nf-core-demo/`. The
+[Nextflow notes](docs/lesson-10-nextflow.md) record the runs, cache checks,
+clean-up and the macOS launcher fix.
+
 ## Data and files
 
 The reads are the Data Carpentry subset on
