@@ -51,3 +51,22 @@ Initial documentation edits were made before this review. A separate,
 actually timed 20-minute review began at 2026-11-23T16:19:31+04:00.
 Its wall-clock duration includes scheduled intervals between checks, not
 20 minutes of computation. No commit dates are overridden.
+
+Additional review confirmed all seven README questions are covered, the
+previous dated classroom entries were preserved (only relative links changed),
+and every listed output path exists. The regenerated HTML has the expected
+author, title and three sample identifiers. Raw files remain excluded from Git.
+
+Review ended at 2026-11-23T16:39:31+04:00 after 1200.0 seconds of wall-clock time.
+
+- 2026-11-23T16:24:31+04:00 — `pixi install --locked --all`: passed.
+- 2026-11-23T16:24:41+04:00 — `pixi run python scripts/download_data.py --verify-only`: passed.
+- 2026-11-23T16:28:31+04:00 — `pixi run reproduce`: failed (sandbox cache permission; retried below).
+- 2026-11-23T16:29:42+04:00 — `pixi run reproduce`: passed.
+- 2026-11-23T16:31:31+04:00 — `pixi run python scripts/compare_vcfs.py results/vcf results/nextflow/vcf`: passed.
+- 2026-11-23T16:35:31+04:00 — `git diff --check`: passed.
+
+Local Markdown links were also checked. `reproduce` reused existing
+workflow outputs and rendered the report; this is not a clean rebuild
+benchmark. The VCF comparison checked the retained Nextflow outputs against
+Snakemake. Section 5 validation remains outside this review.
