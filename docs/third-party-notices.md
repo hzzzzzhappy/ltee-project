@@ -77,3 +77,9 @@ upstream Seqera Apache-2.0 notice and is excluded from Git.
 The nf-core/demo 1.2.0 test used the project's MIT-licensed upstream pipeline
 and its pinned per-process containers; those downloaded files and test outputs
 are not committed. See https://github.com/nf-core/demo/tree/1.2.0.
+
+The README organization and `docs/structure.md` adapt
+[Lesson 11](https://khanlab.bio/cbio7501-f26/pages/11-documentation.html),
+sections 1–4, by Aziz Khan and the workshop contributors (CC BY 4.0).
+Names, measured sizes, workflow details and classroom links were adapted
+for this LTEE example. Original template/code notices above are retained.
