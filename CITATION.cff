@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
 title: "LTEE variant calling"
-abstract: "Variant calling on three E. coli samples from the Long-Term Evolution Experiment"
+abstract: "A CBIO7501 classroom example: variant calling on three E. coli clones from the Long-Term Evolution Experiment, with read-quality checks and minimum-depth sensitivity analysis."
 type: software
 authors:
   - given-names: "Hanzhe"
@@ -10,3 +10,43 @@ authors:
 repository-code: "https://github.com/hzzzzzhappy/ltee-project"
 license: MIT
 version: 0.1.0
+keywords:
+  - reproducibility
+  - variant calling
+  - Long-Term Evolution Experiment
+  - teaching
+references:
+  - type: article
+    title: "Tempo and mode of genome evolution in a 50,000-generation experiment"
+    authors:
+      - given-names: "Olivier"
+        family-names: "Tenaillon"
+      - given-names: "Jeffrey E."
+        family-names: "Barrick"
+      - given-names: "Noah"
+        family-names: "Ribeck"
+      - given-names: "Daniel E."
+        family-names: "Deatherage"
+      - given-names: "Jeffrey L."
+        family-names: "Blanchard"
+      - given-names: "Aurko"
+        family-names: "Dasgupta"
+      - given-names: "Gabriel C."
+        family-names: "Wu"
+      - given-names: "Sébastien"
+        family-names: "Wielgoss"
+      - given-names: "Stéphane"
+        family-names: "Cruveiller"
+      - given-names: "Claudine"
+        family-names: "Médigue"
+      - given-names: "Dominique"
+        family-names: "Schneider"
+      - given-names: "Richard E."
+        family-names: "Lenski"
+    journal: "Nature"
+    volume: 536
+    issue: 7615
+    start: 165
+    end: 170
+    year: 2016
+    doi: "10.1038/nature18959"

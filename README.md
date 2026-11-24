@@ -54,6 +54,7 @@ The Snakemake command uses up to four cores. Installed environments occupy
 current results directory about 1.0 GB. These are rounded local disk-usage
 measurements, not minimum requirements. Results include Snakemake, Nextflow
 and the Docker demo; workflow caches and temporary downloads need extra space.
+Key package versions are listed in [software-versions.txt](docs/software-versions.txt).
 Peak workflow memory and a fresh-run runtime have not been benchmarked here.
 See the [measurement notes](docs/lesson-11-documentation.md).
 
@@ -87,7 +88,8 @@ Raw data, processed data, results and caches are excluded from Git.
 
 See the [folder guide](docs/structure.md) and
 [classroom notes](docs/class-notes.md). Detailed commands and checks are
-linked from those notes.
+linked from those notes. The [rule graph](docs/rulegraph.svg) shows the
+Snakemake steps and their dependencies.
 
 ## Cite
 
@@ -108,4 +110,5 @@ relicense third-party material. See the
 ## Contact
 
 Questions: [open an issue](https://github.com/hzzzzzhappy/ltee-project/issues)
-or email hanzhe.liang@mbzuai.ac.ae.
+or email hanzhe.liang@mbzuai.ac.ae. See [CONTRIBUTING.md](CONTRIBUTING.md)
+for changes and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for participation.

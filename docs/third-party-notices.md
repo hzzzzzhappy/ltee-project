@@ -83,3 +83,9 @@ The README organization and `docs/structure.md` adapt
 sections 1–4, by Aziz Khan and the workshop contributors (CC BY 4.0).
 Names, measured sizes, workflow details and classroom links were adapted
 for this LTEE example. Original template/code notices above are retained.
+
+The citation, contribution instructions and documentation checks also adapt
+Lesson 11 sections 5–8 and its exercises (course text CC BY 4.0).
+`CODE_OF_CONDUCT.md` adopts the linked Contributor Covenant 3.0 policy by
+reference, with the project maintainer as the reporting contact; the upstream
+policy retains its own CC BY-SA 4.0 license.

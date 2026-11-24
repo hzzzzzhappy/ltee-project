@@ -42,8 +42,8 @@ Adapted from [CBIO7501 lesson 11, sections 1–4](https://khanlab.bio/cbio7501-f
 by Aziz Khan and the workshop contributors (course text CC BY 4.0).
 The supplied example hardware numbers were replaced with local measurements.
 
-Section 5 citation validation and the later sections have not been completed
-as part of this step. The existing `CITATION.cff` is retained.
+Section 5 citation validation and the later sections were not completed
+in the 23 November step. They are covered in the follow-up below.
 
 ## Follow-up review
 
@@ -70,3 +70,35 @@ Local Markdown links were also checked. `reproduce` reused existing
 workflow outputs and rendered the report; this is not a clean rebuild
 benchmark. The VCF comparison checked the retained Nextflow outputs against
 Snakemake. Section 5 validation remains outside this review.
+
+## 24 November: sections 5–8 and exercises
+
+Completed the remaining documentation for this LTEE classroom example.
+
+- Expanded `CITATION.cff` with keywords and the related Nature paper;
+  author and contact are Hanzhe Liang. No release date or ORCID was invented.
+- `cffconvert` 2.0.0 validated the file and exported APA-like and BibTeX citations.
+- Added `CONTRIBUTING.md` and a code-of-conduct page linking Contributor Covenant
+  3.0, with the maintainer's email as the reporting contact.
+- Exported `docs/software-versions.txt` from Pixi for both the pipeline and
+  report-rendering environments. Versions are local macOS arm64 builds;
+  other platforms have their own entries in `pixi.lock`.
+- Generated `docs/rulegraph.dot` and `docs/rulegraph.svg`. Reviewed the workflow
+  headers, config comments and decision log; their source credits remain intact.
+- Added CFF validation to the Reproduce GitHub Action, using the same pinned
+  validator version as the local check.
+
+For the citation failure exercise, a temporary copy received ORCID's test
+number without its `https://orcid.org/` prefix. Validation failed with the
+expected pattern error. The real citation file was unchanged (SHA-256
+checked) and passed validation again. The temporary example is not committed.
+
+For the software-version question, `pixi.lock` provides exact per-platform
+packages and `docs/software-versions.txt` provides the human-readable list.
+The report also prints its key environment versions. Use the environment
+that actually produced a figure: report packages can differ from pipeline
+packages (for example pandas).
+
+Local checks passed: citation validation and exports, expected rejection of
+the invalid fixture, restored-file validation, graph generation, local links,
+and `git diff --check`. The full clean-run check is performed by GitHub CI.
