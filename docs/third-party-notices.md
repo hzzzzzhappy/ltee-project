@@ -43,3 +43,49 @@ The adaptation uses project-relative paths, decompresses the reference into
 `data/processed/`, adds alignment and variant statistics, and exposes the
 minimum read depth and output folder as parameters. The attribution and
 change description are retained in the script header.
+
+`config/config.yaml` and the Snakemake exercise notes adapt
+[Lesson 09](https://khanlab.bio/cbio7501-f26/pages/09-snakemake.html),
+sections 1–3, by Aziz Khan and the workshop contributors. Course text is
+CC BY 4.0 and course code is MIT, with the notice retained above.
+
+`workflow/Snakefile` adapts Lesson 09 sections 4–5, retaining the course and
+Data Carpentry attribution in its header. File arguments use shell quoting.
+
+The Lesson 09 adaptation also includes sections 6–7: variant calling,
+filtering, statistics, FastQC and MultiQC, with shell-quoted file arguments.
+
+Sections 8–9 of the same Lesson 09 supply the depth-sensitivity and default
+target rules, retaining the course attribution above.
+
+`scripts/compare_vcfs.py` adapts Lesson 09 section 10 under the course's MIT
+license, adding symmetric file-name checks and rejecting empty input folders.
+
+The report's variant and depth-sensitivity sections and the task integration
+adapt Lesson 09 section 11, retaining the course's text/code licenses above.
+The section 12 thread experiment was run locally with trusted results saved
+beforehand and restored after the comparison.
+
+`workflow/nextflow/main.nf`, `workflow/nextflow/nextflow.config` and the
+Nextflow exercise notes adapt [CBIO7501 Lesson 10](https://khanlab.bio/cbio7501-f26/pages/10-nextflow.html)
+by Aziz Khan and the workshop contributors (course code MIT, course text
+CC BY 4.0). The workflow retains its Data Carpentry CC BY 4.0 attribution.
+The compatibility helper generates a local copy of Bioconda's Nextflow
+launcher with path quoting corrected; that generated copy retains the
+upstream Seqera Apache-2.0 notice and is excluded from Git.
+
+The nf-core/demo 1.2.0 test used the project's MIT-licensed upstream pipeline
+and its pinned per-process containers; those downloaded files and test outputs
+are not committed. See https://github.com/nf-core/demo/tree/1.2.0.
+
+The README organization and `docs/structure.md` adapt
+[Lesson 11](https://khanlab.bio/cbio7501-f26/pages/11-documentation.html),
+sections 1–4, by Aziz Khan and the workshop contributors (CC BY 4.0).
+Names, measured sizes, workflow details and classroom links were adapted
+for this LTEE example. Original template/code notices above are retained.
+
+The citation, contribution instructions and documentation checks also adapt
+Lesson 11 sections 5–8 and its exercises (course text CC BY 4.0).
+`CODE_OF_CONDUCT.md` adopts the linked Contributor Covenant 3.0 policy by
+reference, with the project maintainer as the reporting contact; the upstream
+policy retains its own CC BY-SA 4.0 license.
